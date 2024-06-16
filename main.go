@@ -4,40 +4,35 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
-
 	"github.com/gofrs/uuid"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 // Define the port variable
 const port = ":8080"
-
 var db *sql.DB
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "index.html")
 }
-
 func newsHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./html/News.html")
 }
-
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./html/login.html")
 }
-
 func testlikeHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./html/testlike.html")
 }
-
+func testpopupHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./html/testpopup.html")
+}
 func adminHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./html/admin.html")
 }
-
 func postHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("bjr"))
 }
-
 func StaticFiles(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, r.URL.Path[1:])
 }
@@ -72,6 +67,7 @@ func main() {
 	http.HandleFunc("/signup", createUser)
 	http.HandleFunc("/admin", adminHandler)
 	http.HandleFunc("/testlike", testlikeHandler)
+	http.HandleFunc("/testpopup", testpopupHandler)
 	// Start the server
 	fmt.Println("\n(http://localhost:8080/home) - Server started on port", port)
 	err := http.ListenAndServe(port, nil)
@@ -98,7 +94,6 @@ func CreateTableUser(db *sql.DB) error {
     `)
 	return err
 }
-
 func CreateTableCategories(db *sql.DB) error {
 	// Creating the categories table if not already created
 	_, err := db.Exec(`
@@ -110,7 +105,6 @@ func CreateTableCategories(db *sql.DB) error {
 	`)
 	return err
 }
-
 func CreateTablePost(db *sql.DB) error {
 	// Creating the post table if not already created
 	_, err := db.Exec(`
@@ -132,7 +126,6 @@ func comparePasswords(password, confirmPassword string) bool {
 
 	return password == confirmPassword
 }
-
 func createUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 

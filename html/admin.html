@@ -1,62 +1,64 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BEEP-BO</title>
-    <link rel="stylesheet" href="/css/admin.css">
-    <link rel="icon" type="image/jpg" href ="./pictures/header-logo.jpg">
-</head>
-<header> 
+    <link rel="stylesheet" href="../css/admin.css" />
+    <link
+      rel="shortcut icon"
+      href="../pictures/header-logo.png"
+      type="image/x-icon"
+    />
+  </head>
+
+  <header>
     <div class="header">
-        <h1>Administration </h1>
-        <br>
-        <br />
+      <h1>Administration</h1>
+      <br />
+      <br />
     </div>
-</header>
-<body>
-
-
+  </header>
+  <body>
     <table>
-        <table class="table-style">
+      <table class="table-style">
+        <thead>
+          <tr>
+            <br />
+            <br />
+            <th>UUID</th>
+            <th>NAME</th>
+            <th>FIRST-NAME</th>
+            <th>DATE</th>
+            <th>EMAIL</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>User UUID</td>
+            <td>User NOM</td>
+            <td>User PRENOM</td>
+            <td>User DATE</td>
+            <td>User EMAIL</td>
 
-            <thead>
-                <tr>
-                    <br>
-                    <br />
-                    <th>UUID</th>
-                    <th>NAME</th>
-                    <th>FIRST-NAME</th>
-                    <th>DATE</th>
-                    <th>EMAIL</th>
-                    <th>Role</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tr>
-                <td>User UUID</td>
-                <td>User NOM</td>
-                <td>User PRENOM</td>
-                <td>User DATE</td>
-                <td>User EMAIL</td>
-
-                <td>
-                    <form action="/update-role" method="post">
-                        <select name="role">
-                            <option value="visitor">Visitor</option>
-                            <option value="user">User</option>
-                            <option value="moderator">Moderator</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                        <input type="hidden" name="uuid" value="user-uuid">
-                        <button type="submit">Update</button>
-                    </form>
-                </td>
-                <td><button>Delete</button></td>
-            </tr>
+            <td>
+              <form action="/update-role" method="post">
+                <select name="role">
+                  <option value="visitor">Visitor</option>
+                  <option value="user">User</option>
+                  <option value="moderator">Moderator</option>
+                  <option value="admin">Admin</option>
+                </select>
+                <input type="hidden" name="uuid" value="user-uuid" />
+                <button type="submit">Update</button>
+              </form>
+            </td>
+            <td><button>Delete</button></td>
+          </tr>
         </tbody>
-        </table>
+      </table>
     </table>
-
-</body>
+  </body>
 </html>

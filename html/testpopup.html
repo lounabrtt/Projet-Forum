@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-esquiv="X-UA-Compatible" content="IE-edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BEEP-BO</title>
+    <link rel="stylesheet" href="../css/testpopup.css" />
+    <link
+      rel="shortcut icon"
+      href="../pictures/header-logo.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <button onclick="togglePopup()">Activer le popup</button>
+
+    <div id="popup-overlay" class="hidden">
+      <div class="popup-content">
+        <h2>C'est mon tous premier Popup !</h2>
+        <p>Hey, I'm a popup !</p>
+        <a href="/" class="popup-link">S'incrire</a>
+        <a href="javascript:void(0)" onclick="togglePopup()" class="popup-exit"
+          >Fermer</a
+        >
+      </div>
+    </div>
+
+    <script src="testpopup.js"></script>
+  </body>
+</html>
