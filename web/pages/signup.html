@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>S'inscrire</title>
+    <link
+      rel="shortcut icon"
+      href="../pictures/header-logo.png"
+      type="image/x-icon"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config/tailwindcss.js"></script>
+  </head>
+
+  <body>
+    <main class="w-full flex flex-col h-screen p-8">
+      <header>
+        <a
+          href="/"
+          class="flex items-center gap-2 hover:opacity-80 bg-blue-600 w-fit text-white px-6 py-2 rounded-full"
+        >
+          <img
+            class="w-[18px]"
+            src="../pictures/header-logo-white.png"
+            alt="Logo"
+          />
+          BEEP-BO
+        </a>
+      </header>
+
+      <form
+        method="POST"
+        action="/api/signup"
+        class="mt-24 flex flex-col gap-8 mx-auto w-full max-w-[420px]"
+      >
+        <h1 class="text-4xl font-medium">Sign up</h1>
+
+        <div class="flex flex-col gap-4">
+          <div class="flex gap-4">
+            <div>
+              <label for="lastName" class="block mb-2 text-sm font-medium"
+                >Last name</label
+              >
+              <input
+                type="text"
+                class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+                placeholder="Wolff"
+                name="lastName"
+              />
+            </div>
+
+            <div>
+              <label for="firstName" class="block mb-2 text-sm font-medium"
+                >First name</label
+              >
+              <input
+                type="text"
+                class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+                placeholder="first name"
+                name="firstName"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="birthdate" class="block mb-2 text-sm font-medium"
+              >Date of birth</label
+            >
+            <input
+              class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+              type="date"
+              name="birthdate"
+            />
+          </div>
+
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium"
+              >Email</label
+            >
+            <input
+              class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+              type="email"
+              placeholder="name@gmail.com"
+              name="email"
+            />
+          </div>
+
+          <div>
+            <label for="password" class="block mb-2 text-sm font-medium"
+              >Password</label
+            >
+            <input
+              class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+              type="password"
+              placeholder="********"
+              name="password"
+            />
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="block mb-2 text-sm font-medium"
+              >Confirm password</label
+            >
+            <input
+              class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+              type="password"
+              placeholder="********"
+              name="confirmPassword"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="bg-blue-500 text-white py-2 px-4 rounded-full hover:opacity-80 mt-4"
+        >
+          Confirm
+        </button>
+
+        <p class="text-sm text-gray-600">
+          Already have an account?
+          <a href="mailto:beepbo@gmail.com" target="_blank" class="underline"
+            >Log in here</a
+          >
+        </p>
+      </form>
+    </main>
+  </body>
+</html>

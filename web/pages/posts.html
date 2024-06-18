@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BEEP-BO</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="shortcut icon"
+      href="../pictures/header-logo.png"
+      type="image/x-icon"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config/tailwindcss.js"></script>
+
+    <script src="../js/posts/fetchAllPosts.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <nav class="mx-auto max-w-[1280px] p-4 flex justify-between items-center">
+        <a
+          href="/"
+          class="flex items-center gap-2 hover:opacity-80 bg-blue-600 w-fit text-white px-6 py-2 rounded-full"
+        >
+          <img
+            class="w-[18px]"
+            src="../pictures/header-logo-white.png"
+            alt="Logo"
+          />
+          BEEP-BO
+        </a>
+
+        <ul class="hidden md:flex space-x-6">
+          <li>
+            <a href="/news" class="hover:opacity-80">News</a>
+          </li>
+          <li>
+            <a href="/posts" class="hover:opacity-80">Post</a>
+          </li>
+          <li>
+            <a href="/leaderboard" class="hover:opacity-80">Classement</a>
+          </li>
+        </ul>
+
+        <div class="flex space-x-2">
+          <a
+            href="/login"
+            class="hover:bg-gray-800 text-white py-2 px-4 rounded-full"
+            >Log in</a
+          >
+          <a
+            href="/signup"
+            class="bg-white text-black py-2 px-4 rounded-full hover:opacity-80"
+            >Register</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex flex-col gap-24 w-full px-8 py-20 max-w-[80%] mx-auto">
+      <section
+        class="flex flex-col gap-8 items-center justify-center text-center"
+      >
+        <h1 class="text-6xl font-medium leading-tight">
+          Community Spotlight:<br />Your Voice in Music
+        </h1>
+
+        <h2 class="text-gray-400 max-w-[80ch]">
+          Dive into the vibrant world of music through the eyes of our
+          community. Here, passionate fans and budding critics share their
+          hottest takes on the latest releases. Join the conversation, discover
+          new favorites, and let your voice be heard!
+        </h2>
+
+        <button
+          class="bg-blue-600 text-white py-2 px-4 rounded-full hover:opacity-80 mt-4"
+        >
+          Create an article
+        </button>
+      </section>
+
+      <section class="flex flex-wrap gap-8" id="posts"></section>
+    </main>
+
+    <footer
+      class="flex gap-12 w-full py-4 max-w-[80%] mx-auto items-center justify-between"
+    >
+      <a href="/" class="flex items-center gap-2 hover:opacity-80 w-fit">
+        <img
+          class="w-[18px]"
+          src="../pictures/header-logo-white.png"
+          alt="Logo"
+        />
+        BEEP-BO
+      </a>
+
+      <ul class="flex gap-4 text-gray-400">
+        <li>
+          <a href="/mentionslegales" class="hover:opacity-50">Privacy policy</a>
+        </li>
+        <li>
+          <a
+            href="mailto:beepbo@gmail.com"
+            target="_blank"
+            class="hover:opacity-50"
+            >Contact us</a
+          >
+        </li>
+      </ul>
+    </footer>
+  </body>
+</html>
