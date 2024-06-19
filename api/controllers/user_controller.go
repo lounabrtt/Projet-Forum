@@ -2,7 +2,8 @@ package controllers
 
 import (
 	"database/sql"
-	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
 
 	"ff/database/models"
@@ -14,29 +15,56 @@ func SetDB(database *sql.DB) {
 	db = database
 }
 
-func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	rows, err := db.Query("SELECT UUID, lastName, firstName, birthdate, email FROM users")
+func GetAllUsers() ([]models.User, error) {
+	rows, err := db.Query("SELECT UUID, lastName, firstName, birthdate, email, role FROM users")
 	if err != nil {
-		http.Error(w, "Failed to fetch users", http.StatusInternalServerError)
-		return
+		return nil, err
 	}
 	defer rows.Close()
 
-	users := []models.User{}
-
+	var users []models.User
 	for rows.Next() {
 		var user models.User
-		err := rows.Scan(&user.UUID, &user.LastName, &user.FirstName, &user.Birthdate, &user.Email)
-		if err != nil {
-			http.Error(w, "Failed to scan user", http.StatusInternalServerError)
-			return
+		if err := rows.Scan(&user.UUID, &user.LastName, &user.FirstName, &user.Birthdate, &user.Email, &user.Role); err != nil {
+			return nil, err
 		}
 		users = append(users, user)
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	err = json.NewEncoder(w).Encode(users)
+	return users, nil
+}
+
+func UpdateRoleByUserUUID(uuid string, role string) error {
+	_, err := db.Exec("UPDATE users SET role = ? WHERE UUID = ?", role, uuid)
 	if err != nil {
-		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return fmt.Errorf("error updating user role: %v", err)
 	}
+	return nil
+}
+
+func UpdateInfoByUserUUID(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	currentUser, err := GetCurrentLoggedInUser(r)
+	if err != nil {
+		http.Error(w, "Failed to fetch user", http.StatusInternalServerError)
+		log.Printf("Error fetching user: %v", err)
+		return
+	}
+
+	uuid := currentUser.UUID
+	lastName := r.FormValue("lastName")
+	firstName := r.FormValue("firstName")
+	email := r.FormValue("email")
+
+	_, err = db.Exec("UPDATE users SET lastName = ?, firstName = ?, email = ? WHERE UUID = ?", lastName, firstName, email, uuid)
+	if err != nil {
+		http.Error(w, "Failed to update user info", http.StatusInternalServerError)
+		log.Printf("Error updating user info: %v", err)
+	}
+
+	http.Redirect(w, r, "/profile", http.StatusSeeOther)
 }

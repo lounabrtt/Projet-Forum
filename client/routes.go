@@ -26,16 +26,18 @@ func Routes() {
 
 	http.HandleFunc("/leaderboard", templates.Leaderboard)
 
-	http.HandleFunc("/privacypolicy", templates.Privacypolicy)
-
-	http.HandleFunc("/admin", ServeFileHandler("./web/pages/admin.html"))
-	
 	http.HandleFunc("/profile", templates.Profile)
+
+	http.HandleFunc("/admin", middlewares.RequireRole([]string{"admin"}, templates.Admin))
 
 	http.HandleFunc("/signup", ServeFileHandler("./web/pages/signup.html"))
 	http.HandleFunc("/login", ServeFileHandler("./web/pages/login.html"))
 
+	http.HandleFunc("/privacypolicy", templates.Privacypolicy)
+
+	//
 	// ##### Static files #####
+	//
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./web/css"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./web/js"))))
 	http.Handle("/pictures/", http.StripPrefix("/pictures/", http.FileServer(http.Dir("./web/pictures"))))

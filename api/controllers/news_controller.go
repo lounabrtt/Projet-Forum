@@ -52,7 +52,7 @@ func CreateNew(w http.ResponseWriter, r *http.Request) {
 func GetAllNews() ([]models.New, error) {
 	var news []models.New
 
-	rows, err := db.Query("SELECT UUID, Title, Content, Date, Category, Author FROM news ORDER BY Date DESC")
+	rows, err := db.Query("SELECT UUID, Title, Content, Date, Author FROM news ORDER BY Date DESC")
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func GetAllNews() ([]models.New, error) {
 
 	for rows.Next() {
 		var new models.New
-		err := rows.Scan(&new.UUID, &new.Title, &new.Content, &new.Date, &new.Category, &new.Author)
+		err := rows.Scan(&new.UUID, &new.Title, &new.Content, &new.Date, &new.Author)
 		if err != nil {
 			return nil, err
 		}
@@ -82,10 +82,10 @@ func GetAllNews() ([]models.New, error) {
 }
 
 func GetNewByUuid(uuid string) (models.New, error) {
-	SELECT_NEW_BY_UUID := "SELECT UUID, title, content, date, category, author FROM news WHERE UUID = ?"
+	SELECT_NEW_BY_UUID := "SELECT UUID, title, content, date, author FROM news WHERE UUID = ?"
 
 	var new models.New
-	err := db.QueryRow(SELECT_NEW_BY_UUID, uuid).Scan(&new.UUID, &new.Title, &new.Content, &new.Date, &new.Category, &new.Author)
+	err := db.QueryRow(SELECT_NEW_BY_UUID, uuid).Scan(&new.UUID, &new.Title, &new.Content, &new.Date, &new.Author)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return models.New{}, nil

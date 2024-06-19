@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,8 +13,6 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/config/tailwindcss.js"></script>
-
-    <script src="../js/admin/fetchAllUsers.js" defer></script>
   </head>
 
   <body class="flex flex-col">
@@ -39,7 +37,32 @@
             </tr>
           </thead>
 
-          <tbody></tbody>
+          <tbody>
+            {{ range .Users }}
+            <tr>
+              <td>{{ .UUID }}</td>
+              <td>{{ .LastName }}</td>
+              <td>{{ .FirstName }}</td>
+              <td>{{ .Birthdate }}</td>
+              <td>{{ .Email }}</td>
+              <td>
+                <form action="/api/admin/users/update-role" method="post">
+                  <select name="role">
+                    <option value="{{ .Role }}">{{ .Role }}</option>
+                    <option value="user">User</option>
+                    <option value="moderator">Moderator</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                  <input type="hidden" name="userUUID" value="{{ .UUID }}" />
+                  <button type="submit">Update</button>
+                </form>
+              </td>
+              <td>
+                <button onclick="">Delete</button>
+              </td>
+            </tr>
+            {{ end }}
+          </tbody>
         </table>
       </table>
     </main>

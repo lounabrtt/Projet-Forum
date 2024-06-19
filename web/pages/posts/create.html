@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -48,6 +48,15 @@
             class="hover:bg-gray-800 text-white py-2 px-4 rounded-full"
             >{{ .CurrentUser.FirstName }}
           </a>
+
+          {{ if eq .CurrentUser.Role "admin" }}
+          <a
+            href="/admin"
+            class="bg-red-500 py-2 px-4 rounded-full hover:opacity-80"
+            >Admin</a
+          >
+          {{ end }}
+
           <form method="post" action="/api/auth/logout">
             <button
               type="submit"
@@ -110,6 +119,7 @@
               class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
               type="text"
               placeholder="stormzz"
+              value="{{ .CurrentUser.FirstName }} {{ .CurrentUser.LastName }}"
               name="author"
             />
           </div>

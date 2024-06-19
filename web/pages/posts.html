@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,6 +13,8 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/config/tailwindcss.js"></script>
+
+    <script src="../js/filterPosts.js" defer></script>
   </head>
 
   <body>
@@ -49,6 +51,15 @@
             class="hover:bg-gray-800 text-white py-2 px-4 rounded-full"
             >{{ .CurrentUser.FirstName }}
           </a>
+
+          {{ if eq .CurrentUser.Role "admin" }}
+          <a
+            href="/admin"
+            class="bg-red-500 py-2 px-4 rounded-full hover:opacity-80"
+            >Admin</a
+          >
+          {{ end }}
+
           <form method="post" action="/api/auth/logout">
             <button
               type="submit"
@@ -106,11 +117,33 @@
         {{ end }}
       </section>
 
-      <section class="flex flex-wrap gap-8">
+      <div class="flex flex-row gap-4 items-center">
+        <button
+          data-category="all"
+          id="category-button"
+          class="bg-blue-900/40 text-blue-500 border border-blue-900/40 py-2 px-4 rounded-full hover:opacity-80"
+        >
+          All
+        </button>
+
+        {{ range .Categories }}
+        <button
+          data-category="{{ .Name }}"
+          id="category-button"
+          class="bg-blue-900/40 text-blue-500 border border-blue-900/40 py-2 px-4 rounded-full hover:opacity-80"
+        >
+          {{ .Name }}
+        </button>
+        {{ end }}
+      </div>
+
+      <section class="flex flex-wrap gap-8" id="articles">
         {{range .Posts }}
         <a
           href="/posts/{{ .UUID }}"
           class="flex flex-col gap-2 max-w-[420px] p-4 rounded-md border border-gray-600 transition-all hover:transform hover:-translate-y-2"
+          data-category="{{ .Category }}"
+          id="post-item"
         >
           <p class="text-sm text-gray-400">Written by {{ .Author }}</p>
           <h3 class="font-medium text-2xl">{{ .Title }}</h3>

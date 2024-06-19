@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"ff/database/actions"
 	"fmt"
 )
 
@@ -21,9 +22,22 @@ func InitTables(db *sql.DB) error {
 	if err := CreateTableNews(db); err != nil {
 		return fmt.Errorf("error creating comments table: %v", err)
 	}
-	if err := AddDefaultCategories(db); err != nil {
+
+	//
+	// Initializing default data
+	//
+	if err := actions.InitDefaultCategories(db); err != nil {
 		return fmt.Errorf("error adding default categories: %v", err)
 	}
+
+	if err := actions.InitDefaultUsers(db); err != nil {
+		return fmt.Errorf("error initializing default users: %v", err)
+	}
+
+	if err := actions.InitDefaultNews(db); err != nil {
+		return fmt.Errorf("error initializing default news: %v", err)
+	}
+
 	return nil
 }
 
@@ -97,7 +111,6 @@ func CreateTableNews(db *sql.DB) error {
 			title VARCHAR(100) NOT NULL,
 			content TEXT NOT NULL,
 			date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			category TEXT NOT NULL,
 			author VARCHAR(36) NOT NULL
 		)
 	`)
@@ -115,19 +128,6 @@ func DeletePostsByUUIDs(db *sql.DB, uuids []string) error {
 	_, err = stmt.Exec(uuids[0], uuids[1], uuids[2])
 	if err != nil {
 		return fmt.Errorf("error executing delete statement: %v", err)
-	}
-
-	return nil
-}
-
-func AddDefaultCategories(db *sql.DB) error {
-	categories := []string{"pop", "rap", "country", "rock", "jazz"}
-
-	for _, category := range categories {
-		_, err := db.Exec("INSERT OR IGNORE INTO categories (name) VALUES (?)", category)
-		if err != nil {
-			return fmt.Errorf("error inserting category %s: %v", category, err)
-		}
 	}
 
 	return nil

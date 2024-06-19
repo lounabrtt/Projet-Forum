@@ -13,14 +13,15 @@ type PostsTemplate struct {
 	CurrentUser models.User
 	LoggedIn    bool
 	Posts       []models.Post
+	Categories  []models.Category
 }
 
-// Word limit on Posts content 
+// Word limit on Posts content
 
 func truncateWords(s string, limit int) string {
 	words := strings.Fields(s)
 	if len(words) > limit {
-		return strings.Join(words[:limit], " ") + "... see more" 
+		return strings.Join(words[:limit], " ") + "... see more"
 	}
 	return s
 }
@@ -43,13 +44,21 @@ func Posts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for i := range posts {
-		posts[i].Content = truncateWords(posts[i].Content, 50) // limit to 50 words 
+		posts[i].Content = truncateWords(posts[i].Content, 50) // limit to 50 words
+	}
+
+	categories, err := controllers.GetCategories()
+	if err != nil {
+		http.Error(w, "Failed to fetch categories", http.StatusInternalServerError)
+		log.Printf("Error fetching categories: %v", err)
+		return
 	}
 
 	data := PostsTemplate{
 		CurrentUser: currentUser,
 		LoggedIn:    currentUser.UUID != "",
 		Posts:       posts,
+		Categories:  categories,
 	}
 
 	tmpl, err := template.ParseFiles("web/pages/posts.html")
