@@ -10,6 +10,30 @@ import (
 	"github.com/gofrs/uuid"
 )
 
+func GetCategories() ([]models.Category, error) {
+	var categories []models.Category
+
+	rows, err := db.Query("SELECT id, name FROM categories")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var category models.Category
+		if err := rows.Scan(&category.ID, &category.Name); err != nil {
+			return nil, err
+		}
+		categories = append(categories, category)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return categories, nil
+}
+
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -17,7 +41,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	title := r.FormValue("title")
-	content := r.FormValue("content") 
+	content := r.FormValue("content")
 	author := r.FormValue("author")
 	category := r.FormValue("category")
 

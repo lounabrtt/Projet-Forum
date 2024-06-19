@@ -5,8 +5,6 @@ import (
 	"fmt"
 )
 
-
-
 func InitTables(db *sql.DB) error {
 	if err := CreateTableUser(db); err != nil {
 		return fmt.Errorf("error creating user table: %v", err)
@@ -22,6 +20,9 @@ func InitTables(db *sql.DB) error {
 	}
 	if err := CreateTableNews(db); err != nil {
 		return fmt.Errorf("error creating comments table: %v", err)
+	}
+	if err := AddDefaultCategories(db); err != nil {
+		return fmt.Errorf("error adding default categories: %v", err)
 	}
 	return nil
 }
@@ -44,7 +45,6 @@ func CreateTableUser(db *sql.DB) error {
 
 	return err
 }
-
 
 // Posts
 
@@ -104,3 +104,31 @@ func CreateTableNews(db *sql.DB) error {
 	return err
 }
 
+func DeletePostsByUUIDs(db *sql.DB, uuids []string) error {
+	query := "DELETE FROM posts WHERE UUID IN (?,?,?)"
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return fmt.Errorf("error preparing delete statement: %v", err)
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(uuids[0], uuids[1], uuids[2])
+	if err != nil {
+		return fmt.Errorf("error executing delete statement: %v", err)
+	}
+
+	return nil
+}
+
+func AddDefaultCategories(db *sql.DB) error {
+	categories := []string{"pop", "rap", "country", "rock", "jazz"}
+
+	for _, category := range categories {
+		_, err := db.Exec("INSERT OR IGNORE INTO categories (name) VALUES (?)", category)
+		if err != nil {
+			return fmt.Errorf("error inserting category %s: %v", category, err)
+		}
+	}
+
+	return nil
+}

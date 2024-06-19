@@ -63,7 +63,9 @@
       <div class="flex flex-col gap-4">
         <h1 class="text-6xl font-medium">{{ .New.Title }}</h1>
 
-        <p class="text-sm text-gray-600">Written by {{ .New.Author }}</p>
+        <p class="text-sm text-gray-600">
+          Written by {{ .New.Author }} the {{ .New.Date }}
+        </p>
       </div>
 
       <p class="leading-relaxed">{{ .New.FormattedContent }}</p>
@@ -82,12 +84,15 @@
 
       <ul class="flex gap-4 text-gray-400">
         <li>
-          <a href="../../mentionslegales.html" class="hover:opacity-50"
-            >Privacy policy</a
-          >
+          <a href="/privacypolicy" class="hover:opacity-50">Privacy policy</a>
         </li>
         <li>
-          <a href="../../contact.html" class="hover:opacity-50">Contact us</a>
+          <a
+            href="mailto:beepbo@gmail.com"
+            target="_blank"
+            class="hover:opacity-50"
+            >Contact us</a
+          >
         </li>
       </ul>
     </footer>

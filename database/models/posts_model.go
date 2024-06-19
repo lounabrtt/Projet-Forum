@@ -1,16 +1,15 @@
-// models/post.go
 package models
 
 import "html/template"
 
 type Post struct {
-	UUID     string    `json:"uuid"`
-	Title    string    `json:"title"`
-	Content  string `json:"content"`
-	Author   string    `json:"author"`
-	Category string    `json:"category"`
-	Date     string    `json:"date"`
-	Comments []Comment `json:"comments"`
+	UUID             string        `json:"uuid"`
+	Title            string        `json:"title"`
+	Content          string        `json:"content"`
+	Author           string        `json:"author"`
+	Category         string        `json:"category"`
+	Date             string        `json:"date"`
+	Comments         []Comment     `json:"comments"`
 	FormattedContent template.HTML `json:"-"`
 }
 
@@ -22,4 +21,9 @@ type Comment struct {
 	Author   string `json:"author"`
 	Content  string `json:"content"`
 	Date     string `json:"date"`
+}
+
+type Category struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }

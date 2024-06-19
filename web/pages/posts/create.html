@@ -118,13 +118,14 @@
             <label for="category" class="block mb-2 text-sm font-medium"
               >Category</label
             >
-
             <select
               class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
               name="category"
+              required
             >
-              <option value="Rap">Rap</option>
-              <option value="Pop">Pop</option>
+              {{ range .Categories }}
+              <option value="{{ .Name }}">{{ .Name }}</option>
+              {{ end }}
             </select>
           </div>
 
@@ -163,7 +164,7 @@
 
       <ul class="flex gap-4 text-gray-400">
         <li>
-          <a href="/mentionslegales" class="hover:opacity-50">Privacy policy</a>
+          <a href="/privacypolicy" class="hover:opacity-50">Privacy policy</a>
         </li>
         <li>
           <a

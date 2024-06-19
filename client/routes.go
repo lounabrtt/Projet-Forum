@@ -26,7 +26,7 @@ func Routes() {
 
 	http.HandleFunc("/leaderboard", templates.Leaderboard)
 
-	http.HandleFunc("/legalnotice", templates.Legalnotice)
+	http.HandleFunc("/privacypolicy", templates.Privacypolicy)
 
 	http.HandleFunc("/admin", ServeFileHandler("./web/pages/admin.html"))
 	

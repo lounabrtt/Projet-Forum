@@ -5,10 +5,18 @@ import (
 	"ff/database/models"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gofrs/uuid"
 )
 
+func formatDate(input string) (string, error) {
+	t, err := time.Parse(time.RFC3339, input)
+	if err != nil {
+		return "", err
+	}
+	return t.Format("2006-01-02"), nil
+}
 
 func CreateNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -41,31 +49,36 @@ func CreateNew(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/news", http.StatusSeeOther)
 }
 
-
-
 func GetAllNews() ([]models.New, error) {
-    var news []models.New
+	var news []models.New
 
-    rows, err := db.Query("SELECT UUID, Title, Content, Date, Category, Author FROM news ORDER BY Date DESC")
-    if err != nil {
-        return nil, err
-    }
-    defer rows.Close()
+	rows, err := db.Query("SELECT UUID, Title, Content, Date, Category, Author FROM news ORDER BY Date DESC")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-    for rows.Next() {
-        var new models.New
-        err := rows.Scan(&new.UUID, &new.Title, &new.Content, &new.Date, &new.Category, &new.Author)
-        if err != nil {
-            return nil, err
-        }
-        news = append(news, new)
-    }
+	for rows.Next() {
+		var new models.New
+		err := rows.Scan(&new.UUID, &new.Title, &new.Content, &new.Date, &new.Category, &new.Author)
+		if err != nil {
+			return nil, err
+		}
 
-    if err = rows.Err(); err != nil {
-        return nil, err
-    }
+		formattedDate, err := formatDate(new.Date)
+		if err != nil {
+			return nil, err
+		}
+		new.Date = formattedDate
 
-    return news, nil
+		news = append(news, new)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return news, nil
 }
 
 func GetNewByUuid(uuid string) (models.New, error) {
@@ -79,6 +92,12 @@ func GetNewByUuid(uuid string) (models.New, error) {
 		}
 		return models.New{}, err
 	}
+
+	formattedDate, err := formatDate(new.Date)
+	if err != nil {
+		return models.New{}, err
+	}
+	new.Date = formattedDate
 
 	return new, nil
 }

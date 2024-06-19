@@ -8,12 +8,12 @@ import (
 	"net/http"
 )
 
-type LegalnoticeTemplate struct {
+type PrivacypolicyTemplate struct {
 	CurrentUser models.User
 	LoggedIn    bool
 }
 
-func Legalnotice(w http.ResponseWriter, r *http.Request) {
+func Privacypolicy(w http.ResponseWriter, r *http.Request) {
 	currentUser, err := controllers.GetCurrentLoggedInUser(r)
 
 	if err != nil {
@@ -24,12 +24,12 @@ func Legalnotice(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	data := LegalnoticeTemplate{
+	data := PrivacypolicyTemplate{
 		CurrentUser: currentUser,
 		LoggedIn:    currentUser.UUID != "",
 	}
 
-	tmpl, err := template.ParseFiles("web/pages/legalnotice.html")
+	tmpl, err := template.ParseFiles("web/pages/privacypolicy.html")
 	if err != nil {
 		http.Error(w, "Unable to load template", http.StatusInternalServerError)
 		log.Printf("Template parsing error: %v", err)

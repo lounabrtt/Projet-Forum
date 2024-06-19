@@ -6,7 +6,6 @@ import (
 	"ff/api/validators"
 	"ff/database/models"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 
@@ -120,14 +119,11 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 func GetCurrentLoggedInUser(r *http.Request) (models.User, error) {
 	cookie, err := r.Cookie("session_token")
 	if err != nil {
-		log.Printf("Err: %v", err)
 		return models.User{}, err
-
 	}
 
-	userUUID := sessionStore[cookie.Value]
-
-	if userUUID == "" {
+	userUUID, ok := sessionStore[cookie.Value]
+	if !ok {
 		return models.User{}, http.ErrNoCookie
 	}
 
@@ -148,14 +144,17 @@ func LogoutUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cookie := &http.Cookie{
-		Name:     "session_token",
-		Value:    "",
-		Expires:  time.Now().Add(-time.Hour),
-		HttpOnly: true,
+	cookie, err := r.Cookie("session_token")
+	if err != nil {
+		middlewares.SendErrorToClient(w, "No session found", http.StatusUnauthorized)
+		return
 	}
+
+	// NOTE: Remove the cookie by setting its expiration date to yesterday
+	cookie.Expires = time.Now().AddDate(0, 0, -1)
 	http.SetCookie(w, cookie)
 
-	middlewares.SendSuccessResponse(w, "Logged out successfully")
+	delete(sessionStore, cookie.Value)
+
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

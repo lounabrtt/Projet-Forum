@@ -11,11 +11,11 @@ import (
 type CreatePostTemplate struct {
 	CurrentUser models.User
 	LoggedIn    bool
+	Categories  []models.Category 
 }
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	currentUser, err := controllers.GetCurrentLoggedInUser(r)
-
 	if err != nil {
 		if err != http.ErrNoCookie {
 			http.Error(w, "Failed to fetch user", http.StatusInternalServerError)
@@ -24,9 +24,17 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	categories, err := controllers.GetCategories()
+	if err != nil {
+		http.Error(w, "Failed to fetch categories", http.StatusInternalServerError)
+		log.Printf("Error fetching categories: %v", err)
+		return
+	}
+
 	data := CreatePostTemplate{
 		CurrentUser: currentUser,
 		LoggedIn:    currentUser.UUID != "",
+		Categories:  categories,
 	}
 
 	tmpl, err := template.ParseFiles("web/pages/posts/create.html")
