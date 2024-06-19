@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BEEP-BO - Create post</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="shortcut icon"
+      href="../pictures/header-logo.png"
+      type="image/x-icon"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config/tailwindcss.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="mx-auto max-w-[1280px] p-4 flex justify-between items-center">
+        <a
+          href="/"
+          class="flex items-center gap-2 hover:opacity-80 bg-blue-600 w-fit text-white px-6 py-2 rounded-full"
+        >
+          <img
+            class="w-[18px]"
+            src="../pictures/header-logo-white.png"
+            alt="Logo"
+          />
+          BEEP-BO
+        </a>
+
+        <ul class="hidden md:flex space-x-6">
+          <li>
+            <a href="/news" class="hover:opacity-80">News</a>
+          </li>
+          <li>
+            <a href="/posts" class="hover:opacity-80">Posts</a>
+          </li>
+          <li>
+            <a href="/leaderboard" class="hover:opacity-80">Leaderboard</a>
+          </li>
+        </ul>
+
+        <div class="flex space-x-2" id="header-buttons">
+          {{ if .LoggedIn }}
+          <a
+            href="/profile"
+            class="hover:bg-gray-800 text-white py-2 px-4 rounded-full"
+            >{{ .CurrentUser.FirstName }}
+          </a>
+          <form method="post" action="/api/auth/logout">
+            <button
+              type="submit"
+              class="bg-gray-800 py-2 px-4 rounded-full hover:opacity-80"
+            >
+              Logout
+            </button>
+          </form>
+
+          {{ else }}
+          <a
+            href="/login"
+            class="hover:bg-gray-800 text-white py-2 px-4 rounded-full"
+            >Log in</a
+          >
+          <a
+            href="/signup"
+            class="bg-white text-black py-2 px-4 rounded-full hover:opacity-80"
+            >Register</a
+          >
+          {{ end }}
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex flex-col gap-24 w-full px-8 py-20 max-w-[80%] mx-auto">
+      <section
+        class="flex flex-col gap-8 items-center justify-center text-center"
+      >
+        <h1 class="text-6xl font-medium leading-tight">
+          Hey {{ .CurrentUser.FirstName }},
+        </h1>
+
+        <h2 class="text-4xl">Create a news</h2>
+      </section>
+
+      <form
+        method="post"
+        action="/api/news"
+        class="flex flex-col gap-8 mx-auto w-full max-w-[420px]"
+      >
+        <div class="flex flex-col gap-4">
+          <div>
+            <label for="title" class="block mb-2 text-sm font-medium"
+              >Title</label
+            >
+            <input
+              class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+              type="text"
+              placeholder="The funniest album of the year"
+              name="title"
+            />
+          </div>
+          <div>
+            <label for="author" class="block mb-2 text-sm font-medium"
+              >Author</label
+            >
+            <input
+              class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+              type="text"
+              placeholder="Jeanne"
+              name="author"
+            />
+          </div>
+
+          <div>
+            <label for="category" class="block mb-2 text-sm font-medium"
+              >Category</label
+            >
+            <select
+              class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+              name="category"
+            >
+              <option value="Rap">Rap</option>
+              <option value="Pop">Pop</option>
+              <option value="Country">Country</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="content" class="block mb-2 text-sm font-medium"
+              >Content</label
+            >
+            <textarea
+              name="content"
+              class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+              placeholder="This is a post about the funniest album of the year"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="date" class="block mb-2 text-sm font-medium"
+              >Date</label
+            >
+            <input
+              name="date"
+              type="date"
+              class="bg-gray-800 border border-gray-600 text-white rounded-md block w-full px-4 py-2"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="bg-blue-500 text-white py-2 px-4 rounded-full hover:opacity-80 mt-4"
+        >
+          Publish
+        </button>
+      </form>
+    </main>
+
+    <footer
+      class="flex gap-12 w-full py-4 max-w-[80%] mx-auto items-center justify-between"
+    >
+      <a href="/" class="flex items-center gap-2 hover:opacity-80 w-fit">
+        <img
+          class="w-[18px]"
+          src="../pictures/header-logo-white.png"
+          alt="Logo"
+        />
+        BEEP-BO
+      </a>
+
+      <ul class="flex gap-4 text-gray-400">
+        <li>
+          <a href="/mentionslegales" class="hover:opacity-50">Privacy policy</a>
+        </li>
+        <li>
+          <a
+            href="mailto:beepbo@gmail.com"
+            target="_blank"
+            class="hover:opacity-50"
+            >Contact us</a
+          >
+        </li>
+      </ul>
+    </footer>
+  </body>
+</html>

@@ -5,19 +5,26 @@ import (
 	"fmt"
 )
 
-func InitTables(db *sql.DB) error {
-    if err := CreateTableUser(db); err != nil {
-        return fmt.Errorf("error creating user table: %v", err)
-    }
-    if err := CreateTableCategories(db); err != nil {
-        return fmt.Errorf("error creating categories table: %v", err)
-    }
-    if err := CreateTablePost(db); err != nil {
-        return fmt.Errorf("error creating post table: %v", err)
-    }
-    return nil
-}
 
+
+func InitTables(db *sql.DB) error {
+	if err := CreateTableUser(db); err != nil {
+		return fmt.Errorf("error creating user table: %v", err)
+	}
+	if err := CreateTableCategories(db); err != nil {
+		return fmt.Errorf("error creating categories table: %v", err)
+	}
+	if err := CreateTablePost(db); err != nil {
+		return fmt.Errorf("error creating post table: %v", err)
+	}
+	if err := CreateTableComment(db); err != nil {
+		return fmt.Errorf("error creating comments table: %v", err)
+	}
+	if err := CreateTableNews(db); err != nil {
+		return fmt.Errorf("error creating comments table: %v", err)
+	}
+	return nil
+}
 
 // Users
 func CreateTableUser(db *sql.DB) error {
@@ -29,13 +36,12 @@ func CreateTableUser(db *sql.DB) error {
 			firstName VARCHAR(12) NOT NULL,
 			birthdate TEXT NOT NULL,
 			email TEXT NOT NULL,
-            password VARCHAR(12) NOT NULL,
-			confirmPassword VARCHAR(12) NOT NULL,
-			isAdmin BOOL NOT NULL DEFAULT FALSE,
-			isBanned BOOL NOT NULL DEFAULT FALSE,
+            password VARCHAR(255) NOT NULL,
+			role VARCHAR(20) DEFAULT 'user',
 			pp BLOB
         )
     `)
+
 	return err
 }
 
@@ -53,18 +59,46 @@ func CreateTableCategories(db *sql.DB) error {
 	`)
 	return err
 }
+
 func CreateTablePost(db *sql.DB) error {
 	// Creating the post table if not already created
 	_, err := db.Exec(`
 		CREATE TABLE IF NOT EXISTS posts (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			UUID VARCHAR(36) PRIMARY KEY NOT NULL,
 			title VARCHAR(100) NOT NULL,
 			content TEXT NOT NULL,
 			date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			category INTEGER NOT NULL,
-			author INTEGER NOT NULL,
-			FOREIGN KEY(category) REFERENCES categories(id),
-			FOREIGN KEY(author) REFERENCES users(id)
+			category TEXT NOT NULL,
+			author TEXT NOT NULL
+		)
+	`)
+	return err
+}
+
+func CreateTableComment(db *sql.DB) error {
+	_, err := db.Exec(`
+		CREATE TABLE IF NOT EXISTS comments (
+			UUID VARCHAR(36) PRIMARY KEY NOT NULL,
+			postUUID VARCHAR(36) NOT NULL,
+			author VARCHAR(36) NOT NULL,
+			content TEXT NOT NULL,
+			date TEXT NOT NULL,
+			FOREIGN KEY(postUUID) REFERENCES posts(UUID),
+			FOREIGN KEY(author) REFERENCES users(UUID)
+		)
+	`)
+	return err
+}
+
+func CreateTableNews(db *sql.DB) error {
+	_, err := db.Exec(`
+		CREATE TABLE IF NOT EXISTS news (
+			UUID VARCHAR(36) PRIMARY KEY NOT NULL,
+			title VARCHAR(100) NOT NULL,
+			content TEXT NOT NULL,
+			date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			category TEXT NOT NULL,
+			author VARCHAR(36) NOT NULL
 		)
 	`)
 	return err

@@ -1,13 +1,21 @@
 package api
 
 import (
-	"ff/api/handlers"
+	"ff/api/controllers"
 	"net/http"
 )
 
-
 func Routes() {
-	http.HandleFunc("/api/signup", handlers.CreateUser)
-	http.HandleFunc("/api/users", handlers.GetAllUsers)
-	http.HandleFunc("/api/posts", handlers.CreatePost)
+	// AUTHENTICATION
+	http.HandleFunc("/api/auth/signup", controllers.CreateUser)
+	http.HandleFunc("/api/auth/login", controllers.LoginUser)
+	http.HandleFunc("/api/auth/logout", controllers.LogoutUser)
+
+	// POSTS
+	http.HandleFunc("/api/posts", controllers.CreatePost)
+	http.HandleFunc("/api/news", controllers.CreateNew)
+	http.HandleFunc("/api/posts/comment/", controllers.AddComment)
+
+	// ADMIN
+	http.HandleFunc("/api/users", controllers.GetAllUsers)
 }

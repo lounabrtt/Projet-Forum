@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BEEP-BO</title>
+    <title>BEEP-BO - Leaderboard</title>
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/news.css" />
     <link
@@ -15,6 +15,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/config/tailwindcss.js"></script>
   </head>
+
   <body>
     <header>
       <nav class="mx-auto max-w-[1280px] p-4 flex justify-between items-center">
@@ -35,14 +36,30 @@
             <a href="/news" class="hover:opacity-80">News</a>
           </li>
           <li>
-            <a href="/posts" class="hover:opacity-80">Post</a>
+            <a href="/posts" class="hover:opacity-80">Posts</a>
           </li>
           <li>
-            <a href="/leaderboard" class="hover:opacity-80">Classement</a>
+            <a href="/leaderboard" class="hover:opacity-80">Leaderboard</a>
           </li>
         </ul>
 
-        <div class="flex space-x-2">
+        <div class="flex space-x-2" id="header-buttons">
+          {{ if .LoggedIn }}
+          <a
+            href="/profile"
+            class="hover:bg-gray-800 text-white py-2 px-4 rounded-full"
+            >{{ .CurrentUser.FirstName }}
+          </a>
+          <form method="post" action="/api/auth/logout">
+            <button
+              type="submit"
+              class="bg-gray-800 py-2 px-4 rounded-full hover:opacity-80"
+            >
+              Logout
+            </button>
+          </form>
+
+          {{ else }}
           <a
             href="/login"
             class="hover:bg-gray-800 text-white py-2 px-4 rounded-full"
@@ -53,12 +70,17 @@
             class="bg-white text-black py-2 px-4 rounded-full hover:opacity-80"
             >Register</a
           >
+          {{ end }}
         </div>
       </nav>
     </header>
 
-    <main>
-      <p>COntenu</p>
+    <main class="flex flex-col gap-24 w-full px-8 py-20 max-w-[80%] mx-auto">
+      <section
+        class="flex flex-col gap-8 items-center justify-center text-center"
+      >
+        <h1 class="text-6xl font-medium leading-tight">Leaderboard</h1>
+      </section>
     </main>
 
     <footer

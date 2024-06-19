@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BEEP-BO</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="shortcut icon"
+      href="../pictures/header-logo.png"
+      type="image/x-icon"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config/tailwindcss.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="mx-auto max-w-[1280px] p-4 flex justify-between items-center">
+        <a
+          href="/"
+          class="flex items-center gap-2 hover:opacity-80 bg-blue-600 w-fit text-white px-6 py-2 rounded-full"
+        >
+          <img
+            class="w-[18px]"
+            src="../pictures/header-logo-white.png"
+            alt="Logo"
+          />
+          BEEP-BO
+        </a>
+
+        <ul class="hidden md:flex space-x-6">
+          <li>
+            <a href="/news" class="hover:opacity-80">News</a>
+          </li>
+          <li>
+            <a href="/posts" class="hover:opacity-80">Posts</a>
+          </li>
+          <li>
+            <a href="/leaderboard" class="hover:opacity-80">Leaderboard</a>
+          </li>
+        </ul>
+
+        <div class="flex space-x-2" id="header-buttons">
+          {{ if .LoggedIn }}
+          <a
+            href="/profile"
+            class="hover:bg-gray-800 text-white py-2 px-4 rounded-full"
+            >{{ .CurrentUser.FirstName }}
+          </a>
+          <form method="post" action="/api/auth/logout">
+            <button
+              type="submit"
+              class="bg-gray-800 py-2 px-4 rounded-full hover:opacity-80"
+            >
+              Logout
+            </button>
+          </form>
+
+          {{ else }}
+          <a
+            href="/login"
+            class="hover:bg-gray-800 text-white py-2 px-4 rounded-full"
+            >Log in</a
+          >
+          <a
+            href="/signup"
+            class="bg-white text-black py-2 px-4 rounded-full hover:opacity-80"
+            >Register</a
+          >
+          {{ end }}
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex flex-col gap-24 w-full px-8 py-20 max-w-[80%] mx-auto">
+      <h1 class="text-6xl font-medium leading-tight mx-auto">Legal Notice</h1>
+      <p class="text-gray-500 font-light max-w-[80%] mx-auto">
+        Legal Disclaimer:
+        <br />
+        <br />
+        This website is owned and operated by BEEP-BO. Throughout the site, the
+        terms "we," "us," and "our" refer to BEEP-BO. By accessing and using
+        this website, you agree to comply with the following terms and
+        conditions. Please read these terms carefully before using our website.
+        <br />
+        <br />
+        <br />
+        Intellectual Property:
+        <br />
+        <br />
+        All content on this website, including text, graphics, logos, images,
+        audio clips, digital downloads, and software, is the property of BEEP-BO
+        or its content suppliers and protected by international copyright laws.
+        The compilation of all content on this site is the exclusive property of
+        BEEP-BO and protected by international copyright laws.
+        <br />
+        <br />
+        <br />
+        Limitation of Liability:
+        <br />
+        <br />
+        BEEP-BO shall not be liable for any indirect, special, consequential, or
+        incidental damages arising out of the use or inability to use the
+        materials on this site.
+        <br />
+        <br />
+        <br />
+        Governing Law:
+        <br />
+        <br />
+        These terms and conditions are governed by and construed in accordance
+        with the laws of France, and you irrevocably submit to the exclusive
+        jurisdiction of the courts in that State or location.
+        <br />
+        <br />
+        <br />
+        Changes to Terms:
+        <br />
+        <br />
+        We reserve the right to modify these terms of service at any time.
+        Changes will take effect immediately upon their posting on the website.
+      </p>
+    </main>
+
+    <footer
+      class="flex gap-12 w-full py-4 max-w-[80%] mx-auto items-center justify-between"
+    >
+      <a href="/" class="flex items-center gap-2 hover:opacity-80 w-fit">
+        <img
+          class="w-[18px]"
+          src="../pictures/header-logo-white.png"
+          alt="Logo"
+        />
+        BEEP-BO
+      </a>
+
+      <ul class="flex gap-4 text-gray-400">
+        <li>
+          <a href="/legalnotice" class="hover:opacity-50">Privacy policy</a>
+        </li>
+        <li>
+          <a
+            href="mailto:beepbo@gmail.com"
+            target="_blank"
+            class="hover:opacity-50"
+            >Contact us</a
+          >
+        </li>
+      </ul>
+    </footer>
+  </body>
+</html>

@@ -6,32 +6,30 @@ import (
 	"net/http"
 
 	"ff/api"
-	"ff/api/handlers"
+	"ff/api/controllers"
+	"ff/client"
 	"ff/database"
-	"ff/web"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
-// Define the port variable
 const port = ":8080"
+
 var db *sql.DB
 
-
 func main() {
-	// Database connection
 	db, _ = sql.Open("sqlite3", "./database/forum.db")
 
-	defer db.Close() 
+	defer db.Close()
 
 	if err := database.InitTables(db); err != nil {
-        fmt.Println("Error initializing tables:", err)
-        return
-    }
+		fmt.Println("Error initializing tables:", err)
+		return
+	}
 
-	handlers.SetDB(db)
+	controllers.SetDB(db)
 
-	web.Handler()
+	client.Routes()
 	api.Routes()
 
 	// Start the server
